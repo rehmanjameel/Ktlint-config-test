@@ -1,7 +1,7 @@
 package org.codebase.ktlinittest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 
 class MainActivity : AppCompatActivity() {
