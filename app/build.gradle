@@ -46,23 +46,6 @@ android {
 
 }
 
-task ktlintCheckChanged(type: Exec) {
-    dependsOn 'ktlintCheck'
-    onlyIf { gradle.startParameter.taskNames.contains('ktlintCheckChanged') }
-
-    doLast {
-        // Use Git commands to get the list of changed files
-        def changedFiles = 'git diff --name-only HEAD'.text.trim().split('\n')
-
-        // Run Ktlint only on the changed files
-        project.ktlint.additionalEditorconfigFiles = []
-        project.ktlint.source = changedFiles
-        project.ktlint.dependencyCheck = false
-
-        project.ktlint.main()
-    }
-}
-
 
 dependencies {
 

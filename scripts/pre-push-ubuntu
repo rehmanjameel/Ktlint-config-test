@@ -2,7 +2,7 @@
 
 echo "Running Ktlint checks on changed files..."
 
-./gradlew ktlintCheckChanged
+./gradlew ktlintCheck
 
 status=$?
 
