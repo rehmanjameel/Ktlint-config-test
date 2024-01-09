@@ -1,7 +1,6 @@
 package org.codebase.ktlinittest
 
 import androidx.appcompat.app.AppCompatActivity
-
 import android.os.Bundle
 
 class Dashboard : AppCompatActivity() {
