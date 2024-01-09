@@ -76,7 +76,6 @@ tasks.register('installGitHook', Copy) {
     from prePushScript
     into gitHooksDir
     rename("pre-push-$suffix", 'pre-push')
-
     fileMode 0775
 }
 
