@@ -42,6 +42,8 @@ android {
             reporter "sarif"
         }
     }
+
+
 }
 
 dependencies {
