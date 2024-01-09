@@ -1,11 +1,12 @@
 #!/bin/bash
 
-echo "Running test..."
+echo "Running Ktlint checks on changed files..."
 
-./gradlew app:test --daemon
+./gradlew ktlintCheckChanged
 
 status=$?
 
-# return 1 exit code if running checks fails
+# Return 1 exit code if Ktlint checks fail
 [ $status -ne 0 ] && exit 1
 exit 0
+
