@@ -17,7 +17,7 @@ cd "$(git rev-parse --show-toplevel)"
 for file in $CHANGED_FILES
 do
     echo "Checking Ktlint for file: $file"
-    ./gradlew ktlintCheck --project-dir=$(dirname "$file")
+    ./gradlew ktlintCheck
 
     # Check the exit status of the Ktlint check
     if [ $? -ne 0 ]; then
