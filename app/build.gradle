@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -60,23 +62,21 @@ dependencies {
 }
 
 tasks.register('installGitHook', Copy) {
-    def osName = System.getProperty('os.name').toLowerCase()
-
-    def suffix = "ubuntu"
-    if (osName.contains("win")) {
+    def suffix = "ubuntu"  // Set the suffix for Ubuntu
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         suffix = "windows"
-    } else if (osName.contains("mac")) {
+    } else if (Os.isFamily(Os.FAMILY_MAC)) {
         suffix = "macos"
     }
 
-    // Copy pre-commit script
-//    from new File(rootProject.rootDir, "scripts/pre-commit-$suffix")
-//    into { new File(rootProject.rootDir, '.git/hooks') }
-//    rename("pre-commit-$suffix", 'pre-commit')
+    // Resolve the absolute paths
+    def scriptsDir = new File(rootProject.rootDir, "scripts")
+    def prePushScript = new File(scriptsDir, "pre-push-$suffix")
+    def gitHooksDir = new File(rootProject.rootDir, '.git/hooks')
 
     // Copy pre-push script
-    from new File(rootProject.rootDir, "scripts/pre-push-$suffix")
-    into { new File(rootProject.rootDir, '.git/hooks') }
+    from prePushScript
+    into gitHooksDir
     rename("pre-push-$suffix", 'pre-push')
 
     fileMode 0775
@@ -86,3 +86,5 @@ tasks.register('installGitHook', Copy) {
 gradle.projectsEvaluated {
     tasks.getByPath(':app:preBuild').dependsOn installGitHook
 }
+
+
