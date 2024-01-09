@@ -34,15 +34,15 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    ktlint{
-        android = true
-        ignoreFailures = false
+//    ktlint{
+//        android = true
+//        ignoreFailures = false
 //        reporters {
 //            reporter "plain"
 //            reporter "checkstyle"
 //            reporter "sarif"
 //        }
-    }
+//    }
 
 }
 
