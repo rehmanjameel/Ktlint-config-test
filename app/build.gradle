@@ -52,7 +52,37 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+}
+
+tasks.register('installGitHook', Copy) {
+    def osName = System.getProperty('os.name').toLowerCase()
+
+    def suffix = "ubuntu"
+    if (osName.contains("win")) {
+        suffix = "windows"
+    } else if (osName.contains("mac")) {
+        suffix = "macos"
+    }
+
+    // Copy pre-commit script
+//    from new File(rootProject.rootDir, "scripts/pre-commit-$suffix")
+//    into { new File(rootProject.rootDir, '.git/hooks') }
+//    rename("pre-commit-$suffix", 'pre-commit')
+
+    // Copy pre-push script
+    from new File(rootProject.rootDir, "scripts/pre-push-$suffix")
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    rename("pre-push-$suffix", 'pre-push')
+
+    fileMode 0775
+}
+
+// Configure the dependency after projects have been evaluated
+gradle.projectsEvaluated {
+    tasks.getByPath(':app:preBuild').dependsOn installGitHook
 }
