@@ -46,7 +46,7 @@ android {
 
 }
 
-tasks.register('ktlintCheckChanged', Exec) {
+task ktlintCheckChanged(type: Exec) {
     dependsOn 'ktlintCheck'
     onlyIf { gradle.startParameter.taskNames.contains('ktlintCheckChanged') }
 
@@ -62,6 +62,7 @@ tasks.register('ktlintCheckChanged', Exec) {
         project.ktlint.main()
     }
 }
+
 
 dependencies {
 
