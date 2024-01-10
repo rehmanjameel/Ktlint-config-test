@@ -93,7 +93,7 @@ Runtime.getRuntime().exec("./install_lint.sh")
 
 tasks.register('downloadKtlint', Copy) {
     doLast {
-        from 'scripts/install_ktlint.sh'  // Update the path accordingly
+        from 'install_ktlint.sh'  // Update the path accordingly
         into project.projectDir
         rename { "ktlint" }
         includeEmptyDirs = false
