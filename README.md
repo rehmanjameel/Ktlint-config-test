@@ -66,3 +66,92 @@ gradle.projectsEvaluated {
     tasks.getByPath(':app:preBuild').dependsOn installGitHook
 }
 ```
+
+# create .editorconfig file in project's rook directory
+```
+# Top-level EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+```
+
+# create a folder "scripts" in root directory of project and save the text files in that folder
+# pre-push-ubuntu/ pre-push-macos (this file will run automatically to check the code voilations)
+```
+#!/bin/bash
+
+# Retrieve changed Kotlin files from the recent commit
+CHANGED_FILES=$(git diff --name-only HEAD~1 -- '*.kt')
+echo "Changed files are: $CHANGED_FILES"
+
+# Exit early if no Kotlin files changed
+if [ -z "$CHANGED_FILES" ]; then
+    echo "No Kotlin files changed."
+    exit 0
+fi
+
+# Ensure Gradle execution from the root project
+cd "$(git rev-parse --show-toplevel)"
+
+# Iterate through changed files and check them individually
+for file in $CHANGED_FILES
+do
+    echo "Checking Ktlint for file: $file"
+    ./gradlew ktlintCheck
+
+    # Check the exit status of the Ktlint check
+    if [ $? -ne 0 ]; then
+        echo "Ktlint check failed on file: $file"
+        exit 1
+    fi
+done
+
+echo "Ktlint check passed on all changed files."
+exit 0
+```
+
+# pre-push-window for window
+it could be one of these two lines as not tested for window
+```
+#!/bin/bash
+##  < #!C:/Program\ Files/Git/usr/bin/sh.exe >  ##
+```
+```
+#!/bin/bash
+##  < #!C:/Program\ Files/Git/usr/bin/sh.exe >  ##
+
+
+# Retrieve changed Kotlin files from the recent commit
+CHANGED_FILES=$(git diff --name-only HEAD~1 -- '*.kt')
+echo "Changed files are: $CHANGED_FILES"
+
+# Exit early if no Kotlin files changed
+if [ -z "$CHANGED_FILES" ]; then
+    echo "No Kotlin files changed."
+    exit 0
+fi
+
+# Ensure Gradle execution from the root project
+cd "$(git rev-parse --show-toplevel)"
+
+# Iterate through changed files and check them individually
+for file in $CHANGED_FILES
+do
+    echo "Checking Ktlint for file: $file"
+    ./gradlew.bat ktlintCheck --project-dir=$(dirname "$file")
+
+    # Check the exit status of the Ktlint check
+    if [ $? -ne 0 ]; then
+        echo "Ktlint check failed on file: $file"
+        exit 1
+    fi
+done
+
+echo "Ktlint check passed on all changed files."
+exit 0
+```
