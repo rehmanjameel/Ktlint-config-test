@@ -4,6 +4,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 
+
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 android {
@@ -33,11 +35,6 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-
-    configurations {
-        ktlint
-    }
-
 //    ktlint{
 //        android = true
 //        ignoreFailures = false
@@ -61,7 +58,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
 }
 
 tasks.register('installGitHook', Copy) {
@@ -89,19 +85,4 @@ gradle.projectsEvaluated {
     tasks.getByPath(':app:preBuild').dependsOn installGitHook
 }
 
-Runtime.getRuntime().exec("./install_lint.sh")
-
-tasks.register('downloadKtlint', Copy) {
-    doLast {
-        from './install_lint.sh'  // Update the path accordingly
-        into project.projectDir
-        rename { "ktlint" }
-        includeEmptyDirs = false
-
-        // Set executable permissions explicitly
-        fileMode = 0755
-    }
-}
-
-preBuild.dependsOn downloadKtlint
 
