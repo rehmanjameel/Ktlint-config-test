@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Retrieve changed Kotlin files from the recent commit
+CHANGED_FILES=$(git diff --name-only HEAD~1 -- '*.kt')
+echo "Changed files are: $CHANGED_FILES"
+
+# Exit early if no Kotlin files changed
+if [ -z "$CHANGED_FILES" ]; then
+    echo "No Kotlin files changed."
+    exit 0
+fi
+
+# Ensure Gradle execution from the root project
+cd "$(git rev-parse --show-toplevel)"
+
+# Iterate through changed files and check them individually
+for file in $CHANGED_FILES
+do
+    echo "Checking Ktlint for file: $file"
+    ./gradlew ktlintCheck
+
+    # Check the exit status of the Ktlint check
+    if [ $? -ne 0 ]; then
+        echo "Ktlint check failed on file: $file"
+        exit 1
+    fi
+done
+
+echo "Ktlint check passed on all changed files."
+exit 0
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Running Ktlint checks on changed files..."
+
+./gradlew ktlintCheck
+
+status=$?
+
+# Return 1 exit code if Ktlint checks fail
+[ $status -ne 0 ] && exit 1
+exit 0
+

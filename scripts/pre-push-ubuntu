@@ -10,13 +10,8 @@ if [ -z "$CHANGED_FILES" ]; then
     exit 0
 fi
 
-# Ensure Gradle execution from the root project
-cd "$(git rev-parse --show-toplevel)"
-
 # Run Ktlint check only for changed files
-./gradlew ktlintCheck --files $(echo "$CHANGED_FILES" | tr '\n' ',')
-
-# Check the exit status of the Ktlint check
+echo "$CHANGED_FILES" | xargs ktlint --relative
 if [ $? -ne 0 ]; then
     echo "Ktlint check failed on some files."
     exit 1
