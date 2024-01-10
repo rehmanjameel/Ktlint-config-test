@@ -1,4 +1,4 @@
-### gradle configuration add jcentre() in (settings.gradle)
+#### gradle configuration add jcentre() in (settings.gradle)
 ```repositories {
         jcenter() // Repository for Ktlint dependencies
 
@@ -7,7 +7,7 @@
     }
 ```
 
-### add ktlint plugin with updated version
+#### add ktlint plugin with updated version
 ```
 plugins {
     id 'com.android.application'
@@ -18,7 +18,7 @@ plugins {
 }
 ```
 
-### set java open-jdk to 17
+#### set java open-jdk to 17
 ```
 android {
 .....
@@ -30,7 +30,7 @@ compileOptions {
 }
 ```
 
-## add script below the dependencies to coppy the bash file in .git/hooks/ folder
+### add script below the dependencies to coppy the bash file in .git/hooks/ folder
 ```
 dependencies {
     ....
@@ -67,7 +67,7 @@ gradle.projectsEvaluated {
 }
 ```
 
-# create .editorconfig file in project's rook directory
+#### create .editorconfig file in project's rook directory
 ```
 # Top-level EditorConfig file
 root = true
@@ -80,8 +80,8 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 ```
 
-# create a folder "scripts" in root directory of project and save the text files in that folder
-# pre-push-ubuntu/ pre-push-macos (this file will run automatically to check the code voilations)
+#### create a folder "scripts" in root directory of project and save the text files in that folder
+#### pre-push-ubuntu/ pre-push-macos (this file will run automatically to check the code voilations)
 ```
 #!/bin/bash
 
@@ -115,7 +115,7 @@ echo "Ktlint check passed on all changed files."
 exit 0
 ```
 
-# pre-push-window for window
+#### pre-push-window for window
 it could be one of these two lines as not tested for window
 ```
 #!/bin/bash
