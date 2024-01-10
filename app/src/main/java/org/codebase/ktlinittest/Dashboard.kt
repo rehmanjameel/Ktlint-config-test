@@ -1,8 +1,7 @@
 package org.codebase.ktlinittest
 
-import android.os.Bundle
-
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 
 class Dashboard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
