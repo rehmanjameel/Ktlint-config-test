@@ -1,33 +1,25 @@
 #!/bin/bash
 
-# Retrieve changed Kotlin files from the recent commit
+# Get changed Kotlin files in the staged commits
 CHANGED_FILES=$(git diff --name-only HEAD~1 -- '*.kt')
-echo "Changed files are: $CHANGED_FILES"
 
-# Exit early if no Kotlin files changed
-if [ -z "$CHANGED_FILES" ]; then
-    echo "No Kotlin files changed."
-    exit 0
-fi
+# Check if any Kotlin files have been modified
+if [[ -n "$CHANGED_FILES" ]]; then
+  # Run ktlint on those files
+  ktlint_output=$(ktlint --relative $CHANGED_FILES 2>&1)
 
-# Check if ktlint binary exists in the project directory
-KTLINT_BINARY="./ktlint"
-if [ ! -e "$KTLINT_BINARY" ]; then
-    # Check if ktlint is available in the system path
-    if command -v ktlint &>/dev/null; then
-        KTLINT_BINARY="ktlint"
-    else
-        echo "Ktlint not found. Please install Ktlint on your system or include it in the project directory."
-        exit 1
-    fi
-fi
-
-# Run Ktlint check only for changed files
-echo "$CHANGED_FILES" | xargs "$KTLINT_BINARY" --relative
-if [ $? -ne 0 ]; then
-    echo "Ktlint check failed on some files."
+  # Exit with a non-zero status if any files need formatting
+  if [[ $? -ne 0 ]]; then
+    echo "ktlint found formatting errors in committed files. Please fix them before pushing."
+    
+    # Print clickable paths with line numbers
+    while IFS=: read -r file line_number; do
+      echo -e "\e]8;;file://$PWD/$file\a$file:$line_number\e]8;;\a"
+    done <<< "$ktlint_output"
+    
     exit 1
+  fi
 fi
 
-echo "Ktlint check passed on all changed files."
 exit 0
+
