@@ -10,8 +10,20 @@ if [ -z "$CHANGED_FILES" ]; then
     exit 0
 fi
 
+# Check if ktlint binary exists in the project directory
+KTLINT_BINARY="./ktlint"
+if [ ! -e "$KTLINT_BINARY" ]; then
+    # Check if ktlint is available in the system path
+    if command -v ktlint &>/dev/null; then
+        KTLINT_BINARY="ktlint"
+    else
+        echo "Ktlint not found. Please install Ktlint on your system or include it in the project directory."
+        exit 1
+    fi
+fi
+
 # Run Ktlint check only for changed files
-echo "$CHANGED_FILES" | xargs ktlint --relative
+echo "$CHANGED_FILES" | xargs "$KTLINT_BINARY" --relative
 if [ $? -ne 0 ]; then
     echo "Ktlint check failed on some files."
     exit 1
@@ -19,4 +31,3 @@ fi
 
 echo "Ktlint check passed on all changed files."
 exit 0
-
