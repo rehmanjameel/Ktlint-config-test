@@ -4,7 +4,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 
-//    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 
 }
 
@@ -36,9 +35,6 @@ android {
         jvmTarget = '17'
     }
 
-    configurations {
-        ktlint
-    }
 
 //    ktlint{
 //        android = true
@@ -64,11 +60,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    ktlint("com.pinterest.ktlint:ktlint-cli:1.1.1") {
-        attributes {
-            attribute(Bundling.BUNDLING_ATTRIBUTE, getObjects().named(Bundling, Bundling.EXTERNAL))
-        }
-    }
+
 }
 
 tasks.register('installGitHook', Copy) {
@@ -96,38 +88,4 @@ gradle.projectsEvaluated {
     tasks.getByPath(':app:preBuild').dependsOn installGitHook
 }
 
-tasks.register('downloadKtlint', Copy) {
-    doLast {
-        def ktlintVersion = "1.1.1" // Specify the desired version
-        def ktlintUrl = "https://github.com/pinterest/ktlint/releases/download/${ktlintVersion}/ktlint"
-        def ktlintDestination = file("$projectDir/ktlint")
 
-        ant.get(src: ktlintUrl, dest: ktlintDestination)
-        ant.chmod(file: ktlintDestination, perm: 'a+x')
-    }
-}
-
-preBuild.dependsOn downloadKtlint
-
-//tasks.register("ktlintCheck", JavaExec) {
-//    group = "verification"
-//    description = "Check Kotlin code style."
-//    classpath = configurations.ktlint
-//    mainClass = "com.pinterest.ktlint.Main"
-//    // see https://pinterest.github.io/ktlint/install/cli/#command-line-usage for more information
-//    args "src/**/*.kt", "**.kts", "!**/build/**"
-//}
-//
-//tasks.named("check") {
-//    dependsOn tasks.named("ktlintCheck")
-//}
-//
-//tasks.register("ktlintFormat", JavaExec) {
-//    group = "formatting"
-//    description = "Fix Kotlin code style deviations."
-//    classpath = configurations.ktlint
-//    mainClass = "com.pinterest.ktlint.Main"
-//    jvmArgs "--add-opens=java.base/java.lang=ALL-UNNAMED"
-//    // see https://pinterest.github.io/ktlint/install/cli/#command-line-usage for more information
-//    args "-F", "src/**/*.kt", "**.kts", "!**/build/**"
-//}
