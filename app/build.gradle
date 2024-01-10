@@ -99,7 +99,6 @@ tasks.register('downloadKtlint', Copy) {
         into project.projectDir
         rename { "ktlint" }
         includeEmptyDirs = false
-        filter { line -> line.replace("chmod +x", "") }
 
         // Set executable permissions explicitly
         fileMode = 0755
