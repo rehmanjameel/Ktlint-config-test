@@ -1,4 +1,4 @@
-## gradle configuration add jcentre() in (settings.gradle)
+### gradle configuration add jcentre() in (settings.gradle)
 ```repositories {
         jcenter() // Repository for Ktlint dependencies
 
@@ -7,7 +7,7 @@
     }
 ```
 
-## add ktlint plugin with updated version
+### add ktlint plugin with updated version
 ```
 plugins {
     id 'com.android.application'
@@ -18,7 +18,7 @@ plugins {
 }
 ```
 
-## set java open-jdk to 17
+### set java open-jdk to 17
 ```
 android {
 .....
