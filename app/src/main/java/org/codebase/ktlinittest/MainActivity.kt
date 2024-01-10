@@ -1,10 +1,8 @@
 package org.codebase.ktlinittest
 
-import androidx.appcompat.app.AppCompatActivity
-
 import android.os.Bundle
-
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
