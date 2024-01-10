@@ -103,6 +103,7 @@ tasks.register('downloadKtlint', Copy) {
         def ktlintDestination = file("$projectDir/ktlint")
 
         ant.get(src: ktlintUrl, dest: ktlintDestination)
+        ant.chmod(file: ktlintDestination, perm: 'a+x')
     }
 }
 
